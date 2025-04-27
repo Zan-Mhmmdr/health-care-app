@@ -1,8 +1,4 @@
-// src/app/layout.tsx
-"use client"
 
-import { usePathname } from "next/navigation"
-import Header from "@/components/Header/Header"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
@@ -21,13 +17,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pathname = usePathname()
-  const isAuthPage = pathname.startsWith("/login") || pathname.startsWith("/register")
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {!isAuthPage && <Header />}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
         <main>{children}</main>
       </body>
     </html>
