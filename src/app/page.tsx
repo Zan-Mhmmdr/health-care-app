@@ -1,34 +1,25 @@
-'use client'
+// app/page.tsx
+import React from 'react';
 
 export default function Home() {
-
-
   return (
-    <>
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-            Welcome to Health Care Platform
-          </h1>
-          <p className="text-muted-foreground text-lg mb-8">
-            Your health, our priority. Find doctors, book appointments, and manage your wellness easily.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/register"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none"
-            >
-              Get Started
-            </a>
-            <a
-              href="/login"
-              className="inline-flex items-center justify-center rounded-md border border-input px-6 py-3 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
-            >
-              Login
-            </a>
-          </div>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-blue-50 p-8">
+      <div className="max-w-2xl w-full text-center space-y-6">
+        <h1 className="text-4xl font-bold text-blue-800">
+          Welcome to HealthCare+
+        </h1>
+        <p className="text-lg text-blue-600">
+          Your trusted partner in managing your health and wellness.
+        </p>
+        <div className="flex gap-4 justify-center">
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+            Book Appointment
+          </button>
+          <button className="bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition">
+            Learn More
+          </button>
         </div>
-      </section>
-    </>
+      </div>
+    </main>
   );
 }
