@@ -50,6 +50,12 @@ export default function AppointmentsPage() {
     setAppointments(appointments.filter((app) => app.id !== id));
   };
 
+  const today = new Date().toISOString().split('T')[0];
+  if (newAppointment.date! < today) {
+    alert('Tanggal janji temu tidak boleh di masa lalu.');
+    return;
+  }
+
   return (
     <main className="p-8 min-h-screen bg-gray-50">
       <h1 className="text-3xl font-bold mb-6 text-blue-800">Your Appointments</h1>
