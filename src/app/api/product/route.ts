@@ -1,12 +1,8 @@
-import { NextResponse } from "next/server";
-
-const GET = async (request: Request) => {
-    const requestUrl = new URL(request.url);
-    const { searchParams } = requestUrl;
-    const productId = searchParams.get('id');
-    console.log("productId", productId);
-
-    return NextResponse.json({ status: 200, message: "Product details", data: { id: productId } });
+export const revalidate = 60
+ 
+export async function GET() {
+  const data = await fetch('https://api.vercel.app/blog')
+  const posts = await data.json()
+ 
+  return Response.json(posts)
 }
-
-export default GET;
