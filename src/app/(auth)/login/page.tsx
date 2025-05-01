@@ -4,7 +4,7 @@ const LoginPage: React.FC = () => {
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="w-96 p-6 bg-white rounded shadow">
-                <h2 className="text-2xl font-bold mb-4">Login</h2>
+                <h2 className="text-2xl font-bold mb-8 text-center">Login</h2>
                 <form>
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
