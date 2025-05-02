@@ -1,11 +1,26 @@
+'use client';
+
 import React from 'react';
 
 const RegisterPage: React.FC = () => {
+    // Handle registration form submission
+    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        fetch('api/auth/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: (e.target as HTMLFormElement).name.value,
+                email: (e.target as HTMLFormElement).email.value,
+                password: (e.target as HTMLFormElement).password.value,
+            }),
+        });
+    }
+
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="w-96 p-8 bg-white rounded shadow">
                 <h2 className="text-2xl font-bold mb-8 text-center ">Register</h2>
-                <form>
+                <form onSubmit={(e) => handleRegister(e)}>
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Name

@@ -1,11 +1,25 @@
+'use client';
+
 import React from 'react';
 
 const LoginPage: React.FC = () => {
+    // Handle login form submission
+    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        fetch('api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: (e.target as HTMLFormElement).email.value,
+                password: (e.target as HTMLFormElement).password.value,
+            }),
+        })
+    }
+
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="w-96 p-6 bg-white rounded shadow">
                 <h2 className="text-2xl font-bold mb-8 text-center">Login</h2>
-                <form>
+                <form onSubmit={(e) => handleLogin(e)}>
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email
