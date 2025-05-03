@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server'
 //     return Response.json(posts)
 // }
 
-export function GET() {
+export function POST() {
     return NextResponse.json({ status: 200, message: 'success' })
 }
 
