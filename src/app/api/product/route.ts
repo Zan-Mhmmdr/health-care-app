@@ -1,7 +1,4 @@
-// export const revalidate = 60
-
 import { NextRequest, NextResponse } from "next/server";
-
 
 // export async function GET() {
 //   const data = await fetch('https://api.vercel.app/blog')
@@ -25,6 +22,11 @@ const data = [
         id: 3,
         name: 'Iphone 15 pro',
         price: 750,
+    },
+    {
+        id: 4,
+        name: 'Iphone 15 pro',
+        price: 750,
     }
 ]
 
@@ -44,6 +46,7 @@ export function GET(nextRequest: NextRequest) {
                 }
             )
         }
+
         return NextResponse.json({
             status: 404,
             messege: "success but here is no product with this id",
