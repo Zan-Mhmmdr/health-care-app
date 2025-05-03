@@ -4,10 +4,20 @@ interface Props {
     params: { slug?: string[] };
 }
 
+type Product = {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+};
+
 const getData = async () => {
     try {
-        const res = await fetch(`https://fakestoreapi.com/products`, {
+        const res = await fetch(`http://localhost:3000/api/product`, {
             cache: "force-cache",
+            next: {
+                tags: ["products"],
+            },
         })
         return res.json()
     } catch (error) {
@@ -27,11 +37,11 @@ const ProductPage: FC<Props> = async ({ params }) => {
                 <p>Slug: {slug.join(" / ") || "No slug provided"}</p>
             </div>
             <div className="grid grid-cols-1 place-items-center gap-4 mx-10 my-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {products.map((item: any) => (
+                {products.data?.map((item: Product) => (
                     <div key={item.id} >
                         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 object-cover">
                             <a href="#">
-                                <img className="p-8 rounded-t-lg object-fit w-full h-96" src={item.image} alt="product image" />
+                                <img className="p-8 rounded-t-lg object-fit w-full h-96" src={item.image} width={400} height={500} alt="product image" />
                             </a>
                             <div className="px-5 pb-5">
                                 <a href="#">
