@@ -14,7 +14,7 @@ type Product = {
 const getData = async () => {
     try {
         // const res = await fetch(`http://localhost:3000/api/product`, {
-        const res = await fetch(`https://fakestoreapi.com/productss`, {
+        const res = await fetch(`https://fakestoreapi.com/products`, {
             cache: "no-store",
             next: {
                 tags: ["products"],
