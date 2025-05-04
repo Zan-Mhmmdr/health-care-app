@@ -13,8 +13,9 @@ type Product = {
 
 const getData = async () => {
     try {
-        const res = await fetch(`http://localhost:3000/api/product`, {
-            cache: "force-cache",
+        // const res = await fetch(`http://localhost:3000/api/product`, {
+        const res = await fetch(`https://fakestoreapi.com/productss`, {
+            cache: "no-store",
             next: {
                 tags: ["products"],
             },
@@ -37,7 +38,7 @@ const ProductPage: FC<Props> = async ({ params }) => {
                 <p>Slug: {slug.join(" / ") || "No slug provided"}</p>
             </div>
             <div className="grid grid-cols-1 place-items-center gap-4 mx-10 my-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {products.data?.map((item: Product) => (
+                {products.map((item: Product) => (
                     <div key={item.id} >
                         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 object-cover">
                             <a href="#">
