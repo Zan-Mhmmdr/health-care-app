@@ -3,10 +3,11 @@ import type { NextRequest } from "next/server"
 
 export const middleware = (req: NextRequest) => {
     const isLogin = false
-    if (req.nextUrl.pathname.startsWith("/dashboard/product")) {
-        if (!isLogin) {
-            return NextResponse.redirect(new URL("/login", req.url))
-        }
+    if (!isLogin) {
+        return NextResponse.redirect(new URL("/login", req.url))
     }
 }
 
+export const config = {
+    matcher: ["/dashboard/:path*", "/appointments"],
+}
