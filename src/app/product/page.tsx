@@ -1,8 +1,12 @@
 import getData from "@/services/products";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 =======
 >>>>>>> 6f384f3 (refactor: add folder services)
+=======
+import Link from "next/link";
+>>>>>>> c70cb1a (fix: page detail product)
 import { type FC } from "react";
 
 interface Props {
