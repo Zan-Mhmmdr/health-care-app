@@ -1,5 +1,8 @@
 import getData from "@/services/products";
+<<<<<<< HEAD
 import Link from "next/link";
+=======
+>>>>>>> 6f384f3 (refactor: add folder services)
 import { type FC } from "react";
 
 interface Props {
