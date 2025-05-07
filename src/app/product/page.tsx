@@ -1,4 +1,5 @@
 import getData from "@/services/products";
+import Link from "next/link";
 import { type FC } from "react";
 
 interface Props {
@@ -15,7 +16,8 @@ type Product = {
 
 const ProductPage: FC<Props> = async ({ params }) => {
     const slug = params.slug || [];
-    const products = await getData()
+    // const products = await getData("https://fakestoreapi.com/products")
+    const products = await getData("http://localhost:3000/api/product")
     console.log(products)
 
     return (
@@ -25,16 +27,14 @@ const ProductPage: FC<Props> = async ({ params }) => {
                 <p>Slug: {slug.join(" / ") || "No slug provided"}</p>
             </div>
             <div className="grid grid-cols-1 place-items-center gap-4 mx-10 my-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {products.map((item: Product) => (
-                    <div key={item.id} >
+                {products.data.map((item: Product) => (
+                    <Link
+                        href={`/product/detail/${item.id}`}
+                        key={item.id} >
                         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 object-cover">
-                            <a href="#">
-                                <img className="p-8 rounded-t-lg object-fit w-full h-96" src={item.image} width={400} height={500} alt="product image" />
-                            </a>
+                            <img className="p-8 rounded-t-lg object-fit w-full h-96" src={item.image} width={400} height={500} alt="product image" />
                             <div className="px-5 pb-5">
-                                <a href="#">
-                                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
-                                </a>
+                                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
                                 <div className="flex items-center mt-2.5 mb-5">
                                     <div className="flex items-center space-x-1 rtl:space-x-reverse">
                                         <svg className="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -57,11 +57,11 @@ const ProductPage: FC<Props> = async ({ params }) => {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <span className="text-3xl font-bold text-gray-900 dark:text-white">$ {item.price}</span>
-                                    <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                                    <button type="button" className="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
 
                 ))}
             </div>
