@@ -7,7 +7,12 @@ export default function Header() {
     return (
         <header className="w-full p-4 bg-card shadow-md">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-foreground">HealthCare</h1>
+                <div>
+                <Link href="/" className="text-2xl font-bold text-foreground">HealthCare</Link>
+                <Link href="/appointments" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Appointments</Link>
+                <Link href="/dashboard" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Dashboard</Link>
+
+                </div>
                 <div className="space-x-4">
                     <Link href="/login">
                         <Button variant="outline">Login</Button>
