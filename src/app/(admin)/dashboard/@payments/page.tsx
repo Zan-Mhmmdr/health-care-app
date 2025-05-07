@@ -1,4 +1,4 @@
 export default function PaymentsPage() {
-    return <div>Payments</div>;
+    return <div className="">Payments</div>;
   }
   
