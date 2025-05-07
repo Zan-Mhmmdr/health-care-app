@@ -14,14 +14,14 @@ export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([
     {
       id: 1,
-      doctor: 'Dr. John Doe',
+      doctor: 'Kurokawa Akane',
       date: '2025-05-05',
       time: '10:00 AM',
       location: 'HealthCare Center A',
     },
     {
       id: 2,
-      doctor: 'Dr. Jane Smith',
+      doctor: 'Dr. Reigen Arataka',
       date: '2025-05-10',
       time: '2:00 PM',
       location: 'HealthCare Center B',
