@@ -11,7 +11,7 @@ const data = [
     {
         id: 1,
         name: 'iPhone 13',
-        price: 1000,
+        price: 107,
         image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRDcPkwEVaQgcZq88mPY9UmM6K8dBY0UJIDoI9x8fQaLmFmPeOQb_D44kxei82P3lfttrRduyzYsHKLePnh7qQ6sR8qHxLB3fZPkq_IKVWtvPxs-AiYRzP_',
     },
     {
