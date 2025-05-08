@@ -2,7 +2,7 @@ import getData from "@/services/products"
 
 const DetailProductPage = async (props: any) => {
     const { params } = props
-    const product = await getData("http://localhost:3000/api/product?id=" + params.id)
+    const product = await getData("http://localhost:3000/api/product/?id=" + params.id)
     console.log(product)
 
 
@@ -15,7 +15,7 @@ const DetailProductPage = async (props: any) => {
                         <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3">{product.detailProduct.name}</h3>
                         <span className="text-xl font-bold text-gray-900 dark:text-white">${product.detailProduct.price}</span>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
 
