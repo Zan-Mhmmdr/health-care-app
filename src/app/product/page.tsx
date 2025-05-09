@@ -1,4 +1,6 @@
-import getData from "@/services/products";
+// import getData from "@/services/products";
+import { getData, getDataById } from "@/lib/firebase/service";
+
 import Link from "next/link";
 import { type FC } from "react";
 
@@ -17,7 +19,7 @@ type Product = {
 const ProductPage: FC<Props> = async ({ params }) => {
     const slug = params.slug || [];
     // const products = await getData("https://fakestoreapi.com/products")
-    const products = await getData("http://localhost:3000/api/product")
+    const products = await getData("products")
     console.log(products)
 
     return (
@@ -27,7 +29,7 @@ const ProductPage: FC<Props> = async ({ params }) => {
                 <p>Slug: {slug.join(" / ") || "No slug provided"}</p>
             </div>
             <div className="grid grid-cols-1 place-items-center gap-4 mx-10 my-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-                {products.data.map((item: Product) => (
+                {products.map((item: Product) => (
                     <Link
                         href={`/product/detail/${item.id}`}
                         key={item.id} >
