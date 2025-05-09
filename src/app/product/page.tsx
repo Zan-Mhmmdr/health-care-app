@@ -1,12 +1,5 @@
-import getData from "@/services/products";
-<<<<<<< HEAD
-<<<<<<< HEAD
+import { getData } from "@/lib/firebase/service";
 import Link from "next/link";
-=======
->>>>>>> 6f384f3 (refactor: add folder services)
-=======
-import Link from "next/link";
->>>>>>> c70cb1a (fix: page detail product)
 import { type FC } from "react";
 
 interface Props {
@@ -24,7 +17,7 @@ type Product = {
 const ProductPage: FC<Props> = async ({ params }) => {
     const slug = params.slug || [];
     // const products = await getData("https://fakestoreapi.com/products")
-    const products = await getData("http://localhost:3000/api/product")
+    const products = await getData("products")
     console.log(products)
 
     return (
