@@ -10,23 +10,27 @@ import { NextRequest, NextResponse } from "next/server";
 const data = [
     {
         id: 1,
-        name: 'Iphone 13',
-        price: 1000,
+        name: 'iPhone 13',
+        price: 107,
+        image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRDcPkwEVaQgcZq88mPY9UmM6K8dBY0UJIDoI9x8fQaLmFmPeOQb_D44kxei82P3lfttrRduyzYsHKLePnh7qQ6sR8qHxLB3fZPkq_IKVWtvPxs-AiYRzP_',
     },
     {
         id: 2,
-        name: 'Iphone 12 pro max',
+        name: 'iPhone 12 pro max',
         price: 780,
+        image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQjLVl1MwhBaC7BGWtFmwmkAEJuNwNCi9oV50n0RVzIK8Jy35l4eYZUUJgPe3rxC5raVm0QqKfr7GhM65sd0xd-IjcNX3Ny8GuzU-P7zxLgDsXDrGUcRqYZMw"
     },
     {
         id: 3,
-        name: 'Iphone 15 pro',
+        name: 'iPhone 15 pro',
         price: 750,
+        image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRShFkqz9f-Eslfp7v0uGmdcmdX7i04JKpuLox6EePLL-XtCkm9_2KMJRdD9XjYMY7Gx8eWcLMaLkQwCEzIYJLo16AcqASITnChoAyWM6rGjv2HtWEdnI3x"
     },
     {
         id: 4,
-        name: 'Iphone 15 pro',
-        price: 750,
+        name: "iPhone 16 128",
+        price: 100,
+        image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcR5VTXkeFTD77PNct8aQuecznqVlKIsnuQMmK37ibNR5lSRAz27FaehifPLt56b22wfrvZruOQv87jz9LPph10g6gpNzKp_uY9q04dKN8K5AeQSIoi_VVo4Qg"
     }
 ]
 
