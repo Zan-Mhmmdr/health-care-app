@@ -1,4 +1,3 @@
-
 import Modal from "@/components/core/Modal"
 import getData from "@/services/products"
 

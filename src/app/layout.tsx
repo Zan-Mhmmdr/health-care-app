@@ -15,10 +15,8 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({
   children,
-  MainPage,
 }: {
   children: React.ReactNode,
-  MainPage: React.ReactNode
 }) {
 
   return (
@@ -27,9 +25,7 @@ export default function RootLayout({
         <Header/>
         <main>
           {children}
-          <div>
-            {MainPage}
-          </div>
+       
         </main>
 
       </body>
