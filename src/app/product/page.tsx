@@ -1,4 +1,6 @@
+
 import { getData } from "@/lib/firebase/service";
+import getData from "@/services/products";
 import Link from "next/link";
 import { type FC } from "react";
 
