@@ -1,12 +1,13 @@
 import { getData, getDataById } from "@/lib/firebase/service";
 import { NextRequest, NextResponse } from "next/server";
 
-// export async function GET() {
-//   const data = await fetch('https://api.vercel.app/blog')
-//   const posts = await data.json()
+export async function GET(nextRequest: NextRequest) {
+    const { searchParams } = new URL(nextRequest.url);
+    const id = searchParams.get("id");
 
-//   return Response.json(posts)
-// }
+    try {
+        if (id) {
+            const detailProduct = await getDataById('products', id);
 
 // const data = [
 //     {
@@ -47,12 +48,18 @@ export async function GET(nextRequest: NextRequest) {
             return NextResponse.json(
                 {
                     status: 200,
-                    message: 'success',
-                    detailProduct
-                }
-            )
+                    message: "success",
+                    detailProduct,
+                });
+            }
+
+            return NextResponse.json({
+                status: 404,
+                message: "Product not found",
+            });
         }
 
+        const products = await getData('products');
         return NextResponse.json({
             status: 404,
             messege: "success but here is no product with this id",

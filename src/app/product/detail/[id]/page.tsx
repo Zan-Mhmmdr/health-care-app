@@ -3,7 +3,6 @@ import getData from "@/services/products"
 const DetailProductPage = async (props: any) => {
     const { params } = props
     const product = await getData("http://localhost:3000/api/product/?id=" + params.id)
-    console.log(product)
 
 
     return (
@@ -22,9 +21,6 @@ const DetailProductPage = async (props: any) => {
                 </div>
             </div>
         </>
-
-
-
     )
 }
 

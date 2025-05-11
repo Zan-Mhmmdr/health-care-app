@@ -1,4 +1,4 @@
-export default function Layout ({
+export default function Layout({
     children,
     modal
 }: {
@@ -11,5 +11,4 @@ export default function Layout ({
             {modal}
         </>
     )
-
 }

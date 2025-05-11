@@ -8,7 +8,6 @@ export default async function DetailProductPage(props: any) {
     )
     console.log(product)
 
-
     return (
         <Modal>
             <img
