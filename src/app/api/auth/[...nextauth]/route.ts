@@ -23,17 +23,17 @@ const authOptions: NextAuthOptions = {
                     const { email, password } = credentials as {
                         email: string;
                         password: string;
-                }
-                if (email === "kurokawaakane22@gmail.com" && password === '123123') {
-                    return {
-                        id: 1,
-                        name: "Kurokawa Akane",
-                        email: "kurokawaakane22@gmail.com",
-                        role: "admin",
+                    }
+                    if (email === "kurokawaakane22@gmail.com" && password === '123123') {
+                        return {
+                            id: 1,
+                            name: "Kurokawa Akane",
+                            email: "kurokawaakane22@gmail.com",
+                            role: "admin",
+                        }
                     }
                 }
-            }
-        }),
+            }),
     ],
     callbacks: {
         async jwt({ token, account, profile, user }: any) {
@@ -43,6 +43,18 @@ const authOptions: NextAuthOptions = {
                 token.role = user.role
             }
             return token
+        },
+        async session({session, token} : any) {
+            if ('email' in token ) {
+                session.user.email = token.email
+            }
+            if ('fullname' in token ) {
+                session.user.fullname = token.fullname
+            }
+            if ('role' in token ) {
+                session.user.role = token.role
+            }
+            return session
         }
     }
 } 
