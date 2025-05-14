@@ -1,18 +1,30 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const LoginPage: React.FC = () => {
+
+    const { push } = useRouter();
     // Handle login form submission
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch('api/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: (e.target as HTMLFormElement).email.value,
-                password: (e.target as HTMLFormElement).password.value,
-            }),
-        })
+        try {
+            const res = await signIn('credentials', {
+                redirect: false,
+                email: e.target.email.value,
+                password: e.target.password.value,
+                callbackUrl: "/dashboard",
+            })
+            if (!res?.error) {
+                push('/dashboard');
+            } else {
+                console.error('Login failed:', res.error);
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
     }
 
     return (
