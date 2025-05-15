@@ -1,4 +1,4 @@
-import { doc, getDoc, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 import app from "./init";
 
@@ -30,5 +30,18 @@ export const getDataById = async (collectionName: string, id: string) => {
     } catch (e) {
         console.error("Error getting document: ", e);
         throw e;
+    }
+}
+
+export const register = async (email: string, name: string, password: string) => {
+    try {
+        const docRef = await addDoc(collection(db, "users"), {
+            email,
+            name,
+            password
+        });
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
     }
 }
