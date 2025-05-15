@@ -1,23 +1,46 @@
 'use client';
 
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 const RegisterPage: React.FC = () => {
+    const { push } = useRouter();
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
     // Handle registration form submission
-    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: any) => {
         e.preventDefault();
-        fetch('api/auth/register', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: (e.target as HTMLFormElement).name.value,
-                email: (e.target as HTMLFormElement).email.value,
-                password: (e.target as HTMLFormElement).password.value,
-            }),
-        });
+        try {
+            setLoading(true)
+            setError("")
+            const res = await fetch('api/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: (e.target as HTMLFormElement).name.value,
+                    email: (e.target as HTMLFormElement).email.value,
+                    password: (e.target as HTMLFormElement).password.value,
+                }),
+            });
+            console.log(res)
+            if (res.status === 200) {
+                e.target.reset()
+                push('/auth/login')
+            } else {
+                setError("Email already registered")
+            }
+        } catch (error) {
+            console.error(error);
+            setError("Email already registered")
+            setLoading(false)
+        }
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen flex-col">
+            {
+                error !== '' && <span className='mb-3 text-red-600 font-bold'>{error}</span>
+            }
             <div className="w-96 p-8 bg-white rounded shadow">
                 <h2 className="text-2xl font-bold mb-8 text-center ">Register</h2>
                 <form onSubmit={(e) => handleRegister(e)}>
