@@ -2,18 +2,14 @@ import { register } from '@/lib/firebase/service';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = async (request: NextRequest) => {
-    const req = await request.json();
-    console.log(req);
+    try {
+        const reqBody = await request.json();
 
-    const res = await register(
-        req,
-        ({ status, message }: { status: number; message: string }) => {
-            if (status) {
-                return NextResponse.json({ status, message }, { status: 200 });
-            } else {
-                return NextResponse.json({ status, message }, { status: 400 });
-            }
-        }
-    );
-    console.log(res);
+        const { status, message } = await register(reqBody)
+
+        return NextResponse.json({ status, message }, { status })
+    } catch (error) {
+        console.error("Error in register API:", error);
+        return NextResponse.json({ status: 500, message: 'Internal Server Error' }, { status: 500 });
+    }
 }

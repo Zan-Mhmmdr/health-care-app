@@ -34,38 +34,37 @@ export const getDataById = async (collectionName: string, id: string) => {
     }
 }
 
-export const register = async (
-    data: {
-        fullname: string;
-        email: string;
-        password: string;
-        role?: string;
-    },
-    callback: Function) => {
+export const register = async (data: {
+    fullname: string;
+    email: string;
+    password: string;
+    role?: string;
+}): Promise<{ status: number; message: string }> => {
     try {
         const q = query(
             collection(db, "users"),
-            where('email', '==', data.email),
-        )
-        const snapshot = await getDocs(q)
-        const users = snapshot.docs.map((doc) => ({
+            where('email', '==', data.email)
+        );
+
+        const snapshot = await getDocs(q);
+        const users = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-        }))
+        }));
 
         if (users.length > 0) {
-            callback(false)
-            return
-        } else {
-            data.role = "member"
-            data.password = await bcrypt.hash(data.password, 10)
-
-            await addDoc(collection(db, "users"), data).then(
-                callback({ status: true, messege: 'Register success' }))
+            return { status: 400, message: 'Email already exists' };
         }
 
-    } catch (e) {
-        callback({ status: false, messege: 'Register failed' })
-        console.error("Error adding document: ", e);
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        data.password = hashedPassword;
+        data.role = "member";
+
+        await addDoc(collection(db, "users"), data);
+
+        return { status: 200, message: 'Register success' };
+    } catch (error) {
+        console.error('Error in register:', error);
+        return { status: 500, message: 'Register failed' };
     }
-}
+};
