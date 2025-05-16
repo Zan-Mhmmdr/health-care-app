@@ -1,4 +1,5 @@
-import { addDoc, doc, getDoc, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
+import bcrypt from "bcrypt";
 import { collection } from "firebase/firestore";
 import app from "./init";
 
@@ -33,15 +34,38 @@ export const getDataById = async (collectionName: string, id: string) => {
     }
 }
 
-export const register = async (email: string, name: string, password: string) => {
+export const register = async (
+    data: {
+        fullname: string;
+        email: string;
+        password: string;
+        role?: string;
+    },
+    callback: Function) => {
     try {
-        const docRef = await addDoc(collection(db, "users"), {
-            email,
-            name,
-            password
-        });
-        console.log("Document written with ID: ", docRef.id);
+        const q = query(
+            collection(db, "users"),
+            where('email', '==', data.email),
+        )
+        const snapshot = await getDocs(q)
+        const users = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+
+        if (users.length > 0) {
+            callback(false)
+            return
+        } else {
+            data.role = "member"
+            data.password = await bcrypt.hash(data.password, 10)
+
+            await addDoc(collection(db, "users"), data).then(
+                callback({ status: true, messege: 'Register success' }))
+        }
+
     } catch (e) {
+        callback({ status: false, messege: 'Register failed' })
         console.error("Error adding document: ", e);
     }
 }
