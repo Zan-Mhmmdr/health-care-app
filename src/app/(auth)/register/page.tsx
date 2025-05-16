@@ -11,29 +11,28 @@ const RegisterPage: React.FC = () => {
     // Handle registration form submission
     const handleRegister = async (e: any) => {
         e.preventDefault();
-        try {
-            setLoading(true)
-            setError("")
-            const res = await fetch('api/auth/register', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: (e.target as HTMLFormElement).name.value,
-                    email: (e.target as HTMLFormElement).email.value,
-                    password: (e.target as HTMLFormElement).password.value,
-                }),
-            });
-            console.log(res)
-            if (res.status === 200) {
-                e.target.reset()
-                push('/auth/login')
-            } else {
-                setError("Email already registered")
-            }
-        } catch (error) {
-            console.error(error);
-            setError("Email already registered")
+        setLoading(true)
+        setError("")
+        const res = await fetch('/api/auth/register', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                name: (e.target as HTMLFormElement).name.value,
+                email: (e.target as HTMLFormElement).email.value,
+                password: (e.target as HTMLFormElement).password.value,
+            }),
+        });
+        if (res.status === 200) {
+            e.target.reset()
+            setLoading(false)
+            push('/login')
+        } else {
+            setError("Error: " + res.statusText)
             setLoading(false)
         }
+        console.log(res)
     }
 
     return (
@@ -77,9 +76,9 @@ const RegisterPage: React.FC = () => {
                     <div className="flex items-center justify-between">
                         <button
                             type="submit"
-                            className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md"
+                            className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-md cursor-pointer"
                         >
-                            Register
+                            {loading ? 'Registering...' : 'Register'}
                         </button>
                     </div>
                 </form>
