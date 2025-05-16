@@ -5,8 +5,15 @@ export const POST = async (request: NextRequest) => {
     const req = await request.json();
     console.log(req);
 
-    const res = await register(req.email, req.name, req.password);
+    const res = await register(
+        req,
+        ({ status, message }: { status: number; message: string }) => {
+            if (status) {
+                return NextResponse.json({ status, message }, { status: 200 });
+            } else {
+                return NextResponse.json({ status, message }, { status: 400 });
+            }
+        }
+    );
     console.log(res);
-
-    return NextResponse.json({ status: res.status, message: res.message }, { status: res.statusCode });
 }
