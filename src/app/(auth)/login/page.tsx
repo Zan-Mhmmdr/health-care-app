@@ -2,15 +2,19 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 const LoginPage: React.FC = () => {
-
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const { push } = useRouter();
+
     // Handle login form submission
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setError("");
         try {
+            setIsLoading(true);
             const res = await signIn('credentials', {
                 redirect: false,
                 email: e.target.email.value,
@@ -18,17 +22,28 @@ const LoginPage: React.FC = () => {
                 callbackUrl: "/dashboard",
             })
             if (!res?.error) {
+                e.target.reset();
+                setIsLoading(false);
                 push('/dashboard');
             } else {
+                setIsLoading(false);
                 console.error('Login failed:', res.error);
+                if (res.status === 401) {
+                    setError(' Invalid email or password');
+                    setIsLoading(false);
+                }
             }
         } catch (error) {
+            setIsLoading(false);
             console.error('Login failed:', error);
         }
     }
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen flex-col">
+            {
+                error !== '' && <span className='mb-3 text-red-600 font-bold'>{error}</span>
+            }
             <div className="w-96 p-6 bg-white rounded shadow">
                 <h2 className="text-2xl font-bold mb-8 text-center">Login</h2>
                 <form onSubmit={(e) => handleLogin(e)}>
@@ -55,9 +70,9 @@ const LoginPage: React.FC = () => {
                     <div className="flex items-center justify-between">
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer {isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
                         >
-                            Sign In
+                            {isLoading ? 'Loading...' : 'Sign In'}
                         </button>
                         <a
                             href="#"

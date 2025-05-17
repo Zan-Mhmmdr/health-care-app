@@ -58,7 +58,7 @@ export const register = async (data: {
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
         data.password = hashedPassword;
-        data.role = "member";
+        data.role = "admin";
 
         await addDoc(collection(db, "users"), data);
 
@@ -68,3 +68,23 @@ export const register = async (data: {
         return { status: 500, message: 'Register failed' };
     }
 };
+
+export const login = async (data:
+    {
+        email: string,
+    }) => {
+    const q = query(collection(db, 'users'),
+        where('email', '==', data.email));
+
+    const snapshot = await getDocs(q)
+    const user = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
+
+    if (user) {
+        return user[0]
+    } else {
+        return null
+    }
+}
