@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Header() {
-    const { status }: { status: string } = useSession()
+    const { data: session, status }: { data: any, status: string } = useSession()
 
     return (
         <header className="w-full p-4 bg-card shadow-md">
@@ -15,16 +15,18 @@ export default function Header() {
                     <Link href="/appointments" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Appointments</Link>
                     <Link href="/dashboard" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Dashboard</Link>
                     <Link href="/product" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Products</Link>
-
                 </div>
                 <div className="space-x-4">
                     <Link href="/login">
                         {status === 'authenticated' ? (
-                            <Button
-                                variant="outline"
-                                onClick={() => signOut()}
-                            >Logout
-                            </Button>
+                            <div className='inline'>
+                                <h4 className='text-slate-900 inline mr-4 font-medium'>{session?.user?.name}</h4>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => signOut()}
+                                >Logout
+                                </Button>
+                            </div>
                         ) : (
                             <Button
                                 variant="outline"
