@@ -7,9 +7,10 @@ const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
-    secret: "123123",
+    secret: process.env.NEXT_AUTH_SECRET,
     providers: [
         CredentialProvider({
+            type: 'credentials',
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
@@ -55,7 +56,7 @@ const authOptions: NextAuthOptions = {
             if ('role' in token) {
                 session.user.role = token.role
             }
-            return session
+            return session  
         }
     },
     pages: {

@@ -58,7 +58,7 @@ export const register = async (data: {
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
         data.password = hashedPassword;
-        data.role = "admin";
+        data.role = "member";
 
         await addDoc(collection(db, "users"), data);
 

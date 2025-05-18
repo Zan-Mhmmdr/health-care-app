@@ -1,14 +1,16 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 const LoginPage: React.FC = () => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const { push } = useRouter();
+    const searchParams = useSearchParams()
 
+    const callbackUrl = searchParams.get('callbackUrl') || '/';
     // Handle login form submission
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -19,12 +21,12 @@ const LoginPage: React.FC = () => {
                 redirect: false,
                 email: e.target.email.value,
                 password: e.target.password.value,
-                callbackUrl: "/dashboard",
+                callbackUrl
             })
             if (!res?.error) {
                 e.target.reset();
                 setIsLoading(false);
-                push('/dashboard');
+                push(callbackUrl);
             } else {
                 setIsLoading(false);
                 console.error('Login failed:', res.error);
