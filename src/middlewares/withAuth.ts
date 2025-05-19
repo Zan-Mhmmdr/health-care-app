@@ -2,6 +2,8 @@ import { getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/server";
 
 
+const onlyAdminPage = ['/dashboard']
+
 const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
     return async (req: NextRequest, next: NextFetchEvent) => {
         const pathname = req.nextUrl.pathname
@@ -16,7 +18,14 @@ const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
                 url.searchParams.set('callbackURL', encodeURI(req.url))
                 return NextResponse.redirect(url)
             }
+
+            if (token.role !== 'admin' && onlyAdminPage.includes(pathname)) {
+                return NextResponse.redirect(new URL('/', req.url))
+            }
+
+            return middleware(req, next)
         }
+
 
         return middleware(req, next)
     }
