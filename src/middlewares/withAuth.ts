@@ -22,7 +22,8 @@ const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
             if (token.role !== 'admin' && onlyAdminPage.includes(pathname)) {
                 return NextResponse.redirect(new URL('/', req.url))
             }
-
+            console.log(token)
+            
             return middleware(req, next)
         }
 
