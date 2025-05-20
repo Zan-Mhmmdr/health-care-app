@@ -2,8 +2,6 @@
 
 const AdminPage = () => {
 
-    
-
     const revalidate = async () => {
         await fetch(`http://localhost:3000/api/revalidate?tag=products&secret_token=${process.env.SECRET_TOKEN}`, {
             method: 'POST'
