@@ -17,23 +17,19 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                const { email, password } = credentials as {
-                    email: string;
-                    password: string;
-                };
-
-                const user: any = await login({ email })
-
-                if (user) {
-                    const passwordConfirm = await compare(password, user.password)
-                    if (passwordConfirm) {
-                        return user
-                    }
-                } else {
-                    return null
+                console.log("CREDENTIALS:", credentials);
+                if (!credentials || !credentials.email || !credentials.password) {
+                    throw new Error("Missing credentials");
                 }
 
-                return null;
+                const user: any = await login({ email: credentials.email });
+
+                if (!user) return null;
+
+                const passwordConfirm = await compare(credentials.password, user.password);
+                if (!passwordConfirm) return null;
+
+                return user;
             },
         }),
     ],
@@ -56,7 +52,7 @@ const authOptions: NextAuthOptions = {
             if ('role' in token) {
                 session.user.role = token.role
             }
-            return session  
+            return session
         }
     },
     pages: {
