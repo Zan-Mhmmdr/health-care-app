@@ -35,11 +35,13 @@ const LoginPage: React.FC = () => {
                     setIsLoading(false);
                 }
             }
+
         } catch (error) {
             setIsLoading(false);
             console.error('Login failed:', error);
         }
     }
+    console.log(callbackUrl)
 
     return (
         <div className="flex items-center justify-center h-screen flex-col">
@@ -55,6 +57,7 @@ const LoginPage: React.FC = () => {
                         </label>
                         <input
                             type="email"
+                            name="email"
                             id="email"
                             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
@@ -65,6 +68,7 @@ const LoginPage: React.FC = () => {
                         </label>
                         <input
                             type="password"
+                            name="password"
                             id="password"
                             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />

@@ -15,7 +15,7 @@ const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
             })
             if (!token) {
                 const url = new URL("/login", req.url)
-                url.searchParams.set('callbackURL', encodeURI(req.url))
+                url.searchParams.set('callbackUrl', encodeURI(req.url))
                 return NextResponse.redirect(url)
             }
 
