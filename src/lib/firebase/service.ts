@@ -69,22 +69,26 @@ export const register = async (data: {
     }
 };
 
-export const login = async (data:
-    {
-        email: string,
-    }) => {
-    const q = query(collection(db, 'users'),
-        where('email', '==', data.email));
+export const login = async (data: { email: string }) => {
+    try {
+        const q = query(
+            collection(db, 'users'),
+            where('email', '==', data.email)
+        );
 
-    const snapshot = await getDocs(q)
-    const user = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
+        const snapshot = await getDocs(q);
 
-    if (user) {
-        return user[0]
-    } else {
-        return null
+        if (snapshot.empty) return null;
+
+        const doc = snapshot.docs[0];
+        const userData = {
+            id: doc.id,
+            ...doc.data()
+        };
+
+        return userData;
+    } catch (err) {
+        console.error("🔥 Firestore login error:", err);
+        return null;
     }
 }
