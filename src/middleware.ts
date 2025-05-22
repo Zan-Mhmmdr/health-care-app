@@ -11,4 +11,5 @@ export const mainMiddleware = (req: NextRequest) => {
     return res
 }
 
-export default withAuth(mainMiddleware, ["/dashboard", "/product"])
+
+export default withAuth(mainMiddleware, ["/dashboard", "/product", "/appointments"])
