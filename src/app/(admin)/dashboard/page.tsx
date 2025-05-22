@@ -1,11 +1,9 @@
 'use client'
 
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
 
 export default function Dashboard() {
     const { data: session, status }: { data: any, status: string } = useSession()
-    const router = useRouter()
     console.log(session, status)
 
     // useEffect(() => {
