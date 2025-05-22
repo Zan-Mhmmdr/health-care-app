@@ -10,8 +10,9 @@ const LoginPage: React.FC = () => {
     const { push } = useRouter();
     const searchParams = useSearchParams()
 
-    const callbackUrl = searchParams.get('callbackUrl') || '/';
-    // Handle login form submission
+    const rawCallback = searchParams.get('callbackUrl'); // Get the callback URL from the query string
+    const callbackUrl = rawCallback ? decodeURIComponent(rawCallback) : '/';    // Handle login form submission
+
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
@@ -19,8 +20,8 @@ const LoginPage: React.FC = () => {
             setIsLoading(true);
             const res = await signIn('credentials', {
                 redirect: false,
-                email: e.target.email.value,
-                password: e.target.password.value,
+                email: e.currentTarget.email.value,
+                password: e.currentTarget.password.value,
                 callbackUrl
             })
             if (!res?.error) {
@@ -57,7 +58,6 @@ const LoginPage: React.FC = () => {
                         </label>
                         <input
                             type="email"
-                            name="email"
                             id="email"
                             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
@@ -68,7 +68,6 @@ const LoginPage: React.FC = () => {
                         </label>
                         <input
                             type="password"
-                            name="password"
                             id="password"
                             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         />
