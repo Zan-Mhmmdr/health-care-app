@@ -11,7 +11,7 @@ const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
         if (requireAuth.includes(pathname)) {
             const token = await getToken({
                 req,
-                secret: process.env.NEXT_SECRET_TOKEN
+                secret: process.env.NEXTAUTH_SECRET
             })
 
             if (!token) {
