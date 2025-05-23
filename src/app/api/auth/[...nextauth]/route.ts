@@ -2,12 +2,13 @@ import { login } from "@/lib/firebase/service";
 import { compare } from "bcrypt";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
-    secret: process.env.NEXT_SECRET_TOKEN,
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialProvider({
             type: 'credentials',
@@ -38,6 +39,10 @@ const authOptions: NextAuthOptions = {
             }
 
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        })
     ],
     callbacks: {
         async jwt({ token, account, profile, user }: any) {
