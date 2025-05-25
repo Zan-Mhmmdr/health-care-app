@@ -47,11 +47,19 @@ const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, account, profile, user }: any) {
             if (account?.provider === 'credentials') {
-                token.email = user.email
-                token.name = user.name
-                token.role = user.role
+                token.email = user.email;
+                token.name = user.name;
+                token.role = user.role;
             }
-            return token
+
+            if (account?.provider === 'google') {
+                token.email = profile.email;
+                token.name = profile.name;
+                token.picture = profile.picture;
+                // token.role = 'user'; // Bisa assign default role kalau mau
+            }
+
+            return token;
         },
         async session({ session, token }: any) {
             if ('email' in token) {
