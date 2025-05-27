@@ -1,8 +1,6 @@
 const getData = async (url: string) => {
     try {
-        // const res = await fetch(`http://localhost:3000/api/product`, {
         try {
-            // const res = await fetch(`http://localhost:3000/api/product`, {
             const res = await fetch(`https://fakestoreapi.com/products`, {
 
                 cache: "no-store",
