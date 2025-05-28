@@ -1,11 +1,15 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
-import withAuth from "./middlewares/withAuth"
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import withAuth from "./middlewares/withAuth";
 
-export const mainMiddleware = (req: NextRequest) => {
-    const res = NextResponse.next()
-    return res
-}
+// Base middleware logic
+const baseMiddleware = (req: NextRequest) => {
+  return NextResponse.next();
+};
 
-
-export default withAuth(mainMiddleware, ["/dashboard", "/product", "/appointments"])
+// Apply authentication to specific paths
+export default withAuth(baseMiddleware, [
+  "/dashboard",
+  "/product",
+  "/appointments",
+]);

@@ -56,7 +56,6 @@ const authOptions: NextAuthOptions = {
                 token.email = profile.email;
                 token.name = profile.name;
                 token.picture = profile.picture;
-                // token.role = 'user'; // Bisa assign default role kalau mau
             }
 
             return token;
