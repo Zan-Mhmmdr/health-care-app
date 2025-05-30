@@ -1,4 +1,4 @@
-import { addDoc, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
 import bcrypt from "bcrypt";
 import { collection } from "firebase/firestore";
 import app from "./init";
@@ -90,5 +90,22 @@ export const login = async (data: { email: string }) => {
     } catch (err) {
         console.error("🔥 Firestore login error:", err);
         return null;
+    }
+}
+
+export const loginWithGoogle = async (data: any) => {
+    const q = query(
+        collection(db, 'users'),
+        where('email', '==', data.email)
+    );
+
+    const snapshot = await getDocs(q);
+    const user = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
+
+    if (user.length > 0) {
+        await updateDoc(doc(db, 'users', user[0].id), data)
     }
 }
