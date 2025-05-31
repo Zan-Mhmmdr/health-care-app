@@ -69,7 +69,7 @@ export const register = async (data: {
     }
 };
 
-export const login = async (data: { email: string }) => {
+export const login = async (data: { email: string; password: string }) => {
     try {
         const q = query(
             collection(db, 'users'),
@@ -80,18 +80,22 @@ export const login = async (data: { email: string }) => {
 
         if (snapshot.empty) return null;
 
-        const doc = snapshot.docs[0];
-        const userData = {
-            id: doc.id,
-            ...doc.data()
-        };
+        const userDoc = snapshot.docs[0];
+        const user = userDoc.data();
 
-        return userData;
+        const passwordMatch = await bcrypt.compare(data.password, user.password);
+        if (!passwordMatch) return null;
+
+        return {
+            id: userDoc.id,
+            ...user
+        };
     } catch (err) {
         console.error("🔥 Firestore login error:", err);
         return null;
     }
-}
+};
+
 
 export const loginWithGoogle = async (data: any) => {
     const q = query(
