@@ -79,6 +79,7 @@ const LoginPage: React.FC = () => {
                         >
                             {isLoading ? 'Loading...' : 'Sign In'}
                         </button>
+
                         <a
                             href="#"
                             className="text-sm text-indigo-600 hover:text-indigo-500"
@@ -86,6 +87,12 @@ const LoginPage: React.FC = () => {
                             Forgot password?
                         </a>
                     </div>
+                    <hr />
+                    <button
+                        type='button'
+                        onClick={() => signIn('google', { callbackUrl, redirect: false })}
+                        className='w-full text-white bg-blue-700 mt-2 rounded p-1 cursor-pointer' >Login With Google</button>
+                    <hr />
                 </form>
             </div>
         </div>
