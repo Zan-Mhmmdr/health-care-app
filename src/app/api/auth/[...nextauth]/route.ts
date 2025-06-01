@@ -1,4 +1,4 @@
-import { login } from "@/lib/firebase/service";
+import { login, loginWithGoogle } from "@/lib/firebase/service";
 import { compare } from "bcrypt";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
@@ -53,9 +53,19 @@ const authOptions: NextAuthOptions = {
             }
 
             if (account?.provider === 'google') {
-                token.email = profile.email;
-                token.name = profile.name;
-                token.picture = profile.picture;
+                const data = {
+                    fullname: user.name,
+                    email: user.email,
+                    type: 'google',
+                }
+
+                await loginWithGoogle(data, (result: { status: boolean; data: any }) => {
+                    if (result.status) {
+                        token.email = result.data.email;
+                        token.name = result.data.name;
+                        token.role = result.data.role
+                    }
+                })
             }
 
             return token;

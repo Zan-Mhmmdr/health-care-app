@@ -97,7 +97,7 @@ export const login = async (data: { email: string; password: string }) => {
 };
 
 
-export const loginWithGoogle = async (data: any) => {
+export const loginWithGoogle = async (data: any, callback: any) => {
     const q = query(
         collection(db, 'users'),
         where('email', '==', data.email)
@@ -110,6 +110,13 @@ export const loginWithGoogle = async (data: any) => {
     }));
 
     if (user.length > 0) {
-        await updateDoc(doc(db, 'users', user[0].id), data)
+        await updateDoc(doc(db, 'users', user[0].id), data).then(() => {
+            callback({ status: true, data: data })
+        });
+    } else {
+        data.role = 'member'
+        await addDoc(collection(db, 'users'), data).then(() => {
+            return data
+        })
     }
 }
