@@ -96,7 +96,6 @@ export const login = async (data: { email: string; password: string }) => {
     }
 };
 
-
 export const loginWithGoogle = async (data: any, callback: any) => {
     const q = query(
         collection(db, 'users'),
