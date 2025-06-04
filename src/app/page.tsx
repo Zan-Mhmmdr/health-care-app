@@ -1,6 +1,26 @@
 // app/page.tsx
 import React from 'react';
 
+const Button = ({
+  children,
+  variant = 'primary',
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: 'primary' | 'outline';
+}) => {
+  const base = 'px-6 py-3 rounded-lg transition font-medium';
+  const styles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    outline: 'bg-white border border-blue-600 text-blue-600 hover:bg-blue-50',
+  };
+
+  return (
+    <button className={`${base} ${styles[variant]}`} {...props}>
+      {children}
+    </button>
+  );
+};
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-blue-50 p-8">
@@ -12,12 +32,12 @@ export default function Home() {
           Your trusted partner in managing your health and wellness.
         </p>
         <div className="flex gap-4 justify-center">
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          <Button variant="primary" type="button">
             Book Appointment
-          </button>
-          <button className="bg-white border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition">
+          </Button>
+          <Button variant="outline" type="button">
             Learn More
-          </button>
+          </Button>
         </div>
       </div>
     </main>
