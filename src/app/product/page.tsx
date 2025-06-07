@@ -15,6 +15,12 @@ type Product = {
     image: string;
 };
 
+// app/product/page.tsx atau layout.tsx
+export const metadata = {
+    title: 'Our Products | HealthCare',
+    description: 'Explore high-quality health-related products. View details, pricing, and add to cart easily.',
+};
+
 
 const ProductPage: FC<Props> = async ({ params }) => {
     // const products = await getData("https://fakestoreapi.com/products")
