@@ -10,6 +10,12 @@ type Appointment = {
   location: string;
 };
 
+// app/appointments/page.tsx (App Router)
+export const metadata = {
+  title: 'Your Appointments | HealthCare',
+  description: 'View and manage your healthcare appointments online. Book, cancel, and stay updated with your upcoming visits.',
+};
+
 export default function AppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([
     {
