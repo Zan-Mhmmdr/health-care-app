@@ -1,3 +1,4 @@
+
 // import getData from "@/services/products";
 import { getData, getDataById } from "@/lib/firebase/service";
 
@@ -15,11 +16,11 @@ type Product = {
     image: string;
 };
 
-// app/product/page.tsx atau layout.tsx
-export const metadata = {
-    title: 'Our Products | HealthCare',
-    description: 'Explore high-quality health-related products. View details, pricing, and add to cart easily.',
-};
+// // app/product/page.tsx atau layout.tsx
+// export const metadata = {
+//     title: 'Our Products | HealthCare',
+//     description: 'Explore high-quality health-related products. View details, pricing, and add to cart easily.',
+// };
 
 
 const ProductPage: FC<Props> = async ({ params }) => {
