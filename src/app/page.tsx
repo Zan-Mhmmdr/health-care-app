@@ -30,7 +30,7 @@ export default function Home() {
         <meta
           name="description"
           content="Book appointments and manage your health efficiently with HealthCare+ – your trusted healthcare partner."
-        />
+        /> 
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-blue-50 p-8">
         <div className="max-w-2xl w-full text-center space-y-6">
