@@ -51,7 +51,7 @@ export default function Home() {
             </Link>
             <Link
               href="/about#progress-challenges"
-               className="inline-block px-6 py-3 bg-slate-200 text-blue-700 font-semibold rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition"
+              className="inline-block px-6 py-3 bg-slate-200 text-blue-700 font-semibold rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition"
               type="button"
             >
               Learn More
