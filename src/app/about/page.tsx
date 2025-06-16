@@ -75,7 +75,7 @@ export default function AboutThisProject() {
 
             {/* What's Next */}
             <section className="mb-12">
-                <h2 className="text-2xl font-semibold text-blue-700 mb-2">✨ What's Next</h2>
+                <h2 className="text-2xl font-semibold text-blue-700 mb-2">✨ Whats Next</h2>
                 <ul className="list-disc list-inside space-y-1 text-lg">
                     <li>Fix login (penyesuaian credential provider dengan Firebase Auth)</li>
                     <li>Tambah fitur pengingat minum obat & catatan medis</li>
