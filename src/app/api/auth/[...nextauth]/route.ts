@@ -18,29 +18,31 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                try {
-                    if (!credentials?.email || !credentials?.password) {
-                        return null;
-                    }
-
-                    const user = await login({ email: credentials.email });
-                    if (!user) return null;
-
-                    const isValid = await compare(credentials.password, user.password);
-                    if (!isValid) return null;
-
-                    // return only necessary fields
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        role: user.role,
-                    };
-
-                } catch (err) {
-                    console.error("❌ ERROR in authorize():", err);
+                console.log('Credentials:', credentials);
+                if (!credentials?.email || !credentials?.password) {
+                    console.log('No credentials provided');
                     return null;
                 }
+
+                const user = await login({ email: credentials.email });
+                console.log('User:', user);
+
+                if (!user) return null;
+
+                // Bypass dulu untuk testing:
+                const isValid = credentials.password === user.password;
+
+                if (!isValid) {
+                    console.log('Password not match');
+                    return null;
+                }
+
+                return {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                };
             }
 
 
