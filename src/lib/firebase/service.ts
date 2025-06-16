@@ -1,38 +1,33 @@
-import { addDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where, collection } from "firebase/firestore";
 import bcrypt from "bcrypt";
-import { collection } from "firebase/firestore";
 import app from "./init";
-
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export const getData = async (collectionName: string,) => {
+export const getData = async (collectionName: string) => {
     try {
         const querySnapshot = await getDocs(collection(db, collectionName));
         const data = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
-        }))
-
-        return data; // bisa dipakai di API handler atau di komponen
+        }));
+        return data;
     } catch (e) {
         console.error("Error getting documents: ", e);
-        throw e; // lempar error biar bisa ditangkap di pemanggil
+        throw e;
     }
 };
 
 export const getDataById = async (collectionName: string, id: string) => {
     try {
         const snapshot = await getDoc(doc(db, collectionName, id));
-        const data = snapshot.data()
-        return data
-
+        return snapshot.data();
     } catch (e) {
         console.error("Error getting document: ", e);
         throw e;
     }
-}
+};
 
 export const register = async (data: {
     fullname: string;
@@ -41,19 +36,15 @@ export const register = async (data: {
     role?: string;
 }): Promise<{ status: number; message: string }> => {
     try {
-        const q = query(
-            collection(db, "users"),
-            where('email', '==', data.email)
-        );
-
+        const q = query(collection(db, "users"), where("email", "==", data.email));
         const snapshot = await getDocs(q);
-        const users = snapshot.docs.map(doc => ({
+        const users = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         }));
 
         if (users.length > 0) {
-            return { status: 400, message: 'Email already exists' };
+            return { status: 400, message: "Email already exists" };
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -62,20 +53,16 @@ export const register = async (data: {
 
         await addDoc(collection(db, "users"), data);
 
-        return { status: 200, message: 'Register success' };
+        return { status: 200, message: "Register success" };
     } catch (error) {
-        console.error('Error in register:', error);
-        return { status: 500, message: 'Register failed' };
+        console.error("Error in register:", error);
+        return { status: 500, message: "Register failed" };
     }
 };
 
 export const login = async (data: { email: string; password: string }) => {
     try {
-        const q = query(
-            collection(db, 'users'),
-            where('email', '==', data.email)
-        );
-
+        const q = query(collection(db, "users"), where("email", "==", data.email));
         const snapshot = await getDocs(q);
 
         if (snapshot.empty) return null;
@@ -83,10 +70,9 @@ export const login = async (data: { email: string; password: string }) => {
         const userDoc = snapshot.docs[0];
         const user = userDoc.data();
 
-        console.log("User data:", user);  // Tambahkan ini untuk debug
+        console.log("User data:", user);
 
-        // pastikan password ada dan tipe string
-        if (!user.password || typeof user.password !== 'string') {
+        if (!user.password || typeof user.password !== "string") {
             console.log("User password missing or invalid");
             return null;
         }
@@ -104,26 +90,28 @@ export const login = async (data: { email: string; password: string }) => {
     }
 };
 
-export const loginWithGoogle = async (data: any, callback: any) => {
-    const q = query(
-        collection(db, 'users'),
-        where('email', '==', data.email)
-    );
+export const loginWithGoogle = async (
+    data: { email: string; name?: string; role?: string },
+    callback: (result: { status: boolean; data: any }) => void
+) => {
+    try {
+        const q = query(collection(db, "users"), where("email", "==", data.email));
+        const snapshot = await getDocs(q);
+        const user = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
 
-    const snapshot = await getDocs(q);
-    const user = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-    }));
-
-    if (user.length > 0) {
-        await updateDoc(doc(db, 'users', user[0].id), data).then(() => {
-            callback({ status: true, data: data })
-        });
-    } else {
-        data.role = 'member'
-        await addDoc(collection(db, 'users'), data).then(() => {
-            return data
-        })
+        if (user.length > 0) {
+            await updateDoc(doc(db, "users", user[0].id), data);
+            return callback({ status: true, data: data });
+        } else {
+            data.role = "member";
+            await addDoc(collection(db, "users"), data);
+            return callback({ status: true, data: data });
+        }
+    } catch (error) {
+        console.error("Error in loginWithGoogle:", error);
+        return callback({ status: false, data: null });
     }
-}
+};
