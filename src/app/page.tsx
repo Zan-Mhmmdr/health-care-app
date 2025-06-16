@@ -1,6 +1,7 @@
 // app/page.tsx
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const Button = ({
   children,
@@ -30,7 +31,7 @@ export default function Home() {
         <meta
           name="description"
           content="Book appointments and manage your health efficiently with HealthCare+ – your trusted healthcare partner."
-        /> 
+        />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-blue-50 p-8">
         <div className="max-w-2xl w-full text-center space-y-6">
@@ -41,12 +42,20 @@ export default function Home() {
             Your trusted partner in managing your health and wellness with ease and confidence.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="primary" type="button">
+            <Link
+              href="/appointments"
+              className="inline-block px-6 py-3 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition"
+              type="button"
+            >
               Book Appointment
-            </Button>
-            <Button variant="outline" type="button">
+            </Link>
+            <Link
+              href="/about#progress-challenges"
+               className="inline-block px-6 py-3 bg-slate-200 text-blue-700 font-semibold rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition"
+              type="button"
+            >
               Learn More
-            </Button>
+            </Link>
           </div>
         </div>
       </main>

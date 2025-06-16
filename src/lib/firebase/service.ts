@@ -83,12 +83,20 @@ export const login = async (data: { email: string; password: string }) => {
         const userDoc = snapshot.docs[0];
         const user = userDoc.data();
 
+        console.log("User data:", user);  // Tambahkan ini untuk debug
+
+        // pastikan password ada dan tipe string
+        if (!user.password || typeof user.password !== 'string') {
+            console.log("User password missing or invalid");
+            return null;
+        }
+
         const passwordMatch = await bcrypt.compare(data.password, user.password);
         if (!passwordMatch) return null;
 
         return {
             id: userDoc.id,
-            ...user
+            ...user,
         };
     } catch (err) {
         console.error("🔥 Firestore login error:", err);
