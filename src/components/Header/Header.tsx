@@ -15,6 +15,7 @@ export default function Header() {
                     <Link href="/appointments" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Appointments</Link>
                     <Link href="/dashboard" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Dashboard</Link>
                     <Link href="/product" className="text-xl ml-10 text-foreground hover:text-blue-600 ">Products</Link>
+                    <Link href="/about" className="text-xl ml-10 text-foreground hover:text-blue-600 ">About</Link>
                 </div>
                 <div className="space-x-4">
                     <Link href="/login">

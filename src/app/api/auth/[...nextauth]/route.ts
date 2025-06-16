@@ -24,19 +24,25 @@ const authOptions: NextAuthOptions = {
                     }
 
                     const user = await login({ email: credentials.email });
-
                     if (!user) return null;
 
-                    const passwordConfirm = await compare(credentials.password, user.password);
-                    if (!passwordConfirm) return null;
+                    const isValid = await compare(credentials.password, user.password);
+                    if (!isValid) return null;
 
-                    return user;
+                    // return only necessary fields
+                    return {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role,
+                    };
 
                 } catch (err) {
                     console.error("❌ ERROR in authorize():", err);
-                    return null; // jangan throw, cukup return null biar tidak 500
+                    return null;
                 }
             }
+
 
         }),
         GoogleProvider({
