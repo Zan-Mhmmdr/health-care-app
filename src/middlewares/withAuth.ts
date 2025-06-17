@@ -1,46 +1,51 @@
 import { getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/server";
 
+// Halaman yang hanya bisa diakses oleh admin
+const onlyAdminPage = ["/dashboard"];
 
-const onlyAdminPage = ['/dashboard']
-const authPage = ['/login', '/register']
+// Halaman yang tidak boleh diakses saat user sudah login
+const authPage = ["/login", "/register"];
+
+// Halaman yang tidak butuh autentikasi (bebas diakses)
+const publicPage = ["/appointments"];
 
 const withAuth = (middleware: NextMiddleware, requireAuth: string[] = []) => {
-    return async (req: NextRequest, next: NextFetchEvent) => {
-        const pathname = req.nextUrl.pathname
+  return async (req: NextRequest, next: NextFetchEvent) => {
+    const pathname = req.nextUrl.pathname;
 
-        const token = await getToken({
-            req,
-            secret: process.env.NEXTAUTH_SECRET
-        })
-
-        
-        if (requireAuth.includes(pathname)) {
-            if (!token && !authPage.includes(pathname)) {
-                const url = new URL("/login", req.url)
-                url.searchParams.set('callbackUrl', encodeURIComponent(req.url))
-                return NextResponse.redirect(url)
-            }
-            console.log(token)
-            console.log("Token:", token);
-        }
-        // Jika token ada, cek apakah user sudah login
-        if (token) {
-            if (authPage.includes(pathname)) {
-                return NextResponse.redirect(new URL('/', req.url))
-            }
-
-            if (token.role !== "admin" && onlyAdminPage.includes(pathname)) {
-                return NextResponse.redirect(new URL("/", req.url))
-            }
-        }
-
-        console.log("CHECK TOKEN:", await getToken({ req, secret: process.env.NEXT_SECRET_TOKEN }));
-        console.log("Current path:", pathname);
-
-
-        return middleware(req, next)
+    // Jika termasuk halaman publik, langsung jalankan middleware tanpa validasi token
+    if (publicPage.includes(pathname)) {
+      return middleware(req, next);
     }
-}
 
-export default withAuth
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    // Jika halaman wajib login dan user belum login
+    if (requireAuth.includes(pathname) && !token && !authPage.includes(pathname)) {
+      const url = new URL("/login", req.url);
+      url.searchParams.set("callbackUrl", encodeURIComponent(req.url));
+      return NextResponse.redirect(url);
+    }
+
+    // Jika user sudah login:
+    if (token) {
+      // Cegah akses ke /login atau /register
+      if (authPage.includes(pathname)) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+
+      // Cegah akses ke halaman admin jika bukan admin
+      if (onlyAdminPage.includes(pathname) && token.role !== "admin") {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+    }
+
+    return middleware(req, next);
+  };
+};
+
+export default withAuth;
